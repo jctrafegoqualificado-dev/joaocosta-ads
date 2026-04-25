@@ -14,245 +14,428 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:       #2020CC;
-      --blue-dark:  #1515A0;
-      --black:      #0a0a0a;
-      --text:       #1a1a2e;
-      --muted:      #666680;
-      --gray:       #f5f5f7;
-      --gray-mid:   #e2e2ec;
-      --white:      #ffffff;
-      --green:      #25D366;
+      --blue:      #2020CC;
+      --blue-dark: #1515A0;
+      --text:      #1a1a2e;
+      --muted:     #666680;
+      --gray:      #f5f5f7;
+      --gray-mid:  #e2e2ec;
+      --white:     #ffffff;
+      --green:     #25D366;
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; overflow-x: hidden; }
 
-    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
 
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    /* ── ANIMAÇÕES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+      50%       { box-shadow: 0 0 0 12px rgba(37,211,102,0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes gradMove {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
 
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ── BTN WA ── */
     .btn-wa {
       display: flex; align-items: center; justify-content: center; gap: 12px;
       background: var(--green); color: white;
       padding: 18px 32px; border-radius: 14px;
       font-size: 17px; font-weight: 800; text-decoration: none;
-      box-shadow: 0 6px 24px rgba(37,211,102,0.35);
-      transition: transform .2s, box-shadow .2s; width: 100%;
+      transition: transform .2s, box-shadow .2s;
+      width: 100%; position: relative; overflow: hidden;
+      animation: pulse-green 2.5s ease-in-out infinite;
     }
-    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(37,211,102,0.45); }
-    .btn-wa svg  { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
-
+    .btn-wa::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.2s linear infinite;
+    }
+    .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(37,211,102,0.5); }
+    .btn-wa svg  { width: 22px; height: 22px; fill: white; flex-shrink: 0; position: relative; z-index: 1; }
+    .btn-wa span { position: relative; z-index: 1; }
     .cta-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(160deg, #040418 0%, #0a0a50 50%, #1515A0 100%);
-      padding: 64px 0 72px; position: relative; overflow: hidden;
+      background: #060618;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(32,32,204,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(53,53,224,0.2) 0%, transparent 45%),
+        radial-gradient(ellipse at 60% 80%, rgba(21,21,160,0.25) 0%, transparent 40%);
+      background-size: 200% 200%;
+      animation: gradMove 12s ease infinite;
+      padding: 72px 0 80px;
+      position: relative; overflow: hidden;
     }
-    .hero::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 90% 10%, rgba(53,53,224,0.3) 0%, transparent 55%);
+
+    /* grade sutil no fundo */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
       pointer-events: none;
     }
-    .hero-inner { position: relative; z-index: 1; }
 
-    .logo-strip { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
-    .logo-mark {
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    /* orbe flutuante */
+    .hero-orb {
+      position: absolute; right: -80px; top: 50%;
+      transform: translateY(-50%);
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(32,32,204,0.3) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
     }
-    .logo-mark svg { width: 22px; height: 22px; fill: white; }
-    .logo-text strong { font-size: 14px; font-weight: 800; color: white; display: block; letter-spacing: -0.2px; }
-    .logo-text span  { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
 
-    .hero .badge { color: rgba(255,255,255,0.8); margin-bottom: 28px; }
+    .hero-inner { position: relative; z-index: 1; animation: fadeUp .8s ease both; }
+
+    /* logo */
+    .logo-img {
+      height: 52px; width: auto;
+      margin-bottom: 36px; display: block;
+      filter: drop-shadow(0 0 16px rgba(123,123,255,0.4));
+      animation: fadeIn 1s ease .2s both;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 28px;
+      animation: fadeIn .8s ease .3s both;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
 
     .hero h1 {
-      font-size: clamp(28px, 6vw, 46px); font-weight: 900; color: white;
-      line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px;
+      font-size: clamp(30px, 6vw, 52px); font-weight: 900; color: white;
+      line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 22px;
+      animation: fadeUp .8s ease .35s both;
     }
-    .hero h1 em { color: #7b7bff; font-style: normal; }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #7b7bff, #a5b4fc, #7b7bff);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
 
     .hero p {
-      font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.72);
-      line-height: 1.65; margin-bottom: 36px; max-width: 560px;
+      font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.68);
+      line-height: 1.7; margin-bottom: 36px; max-width: 560px;
+      animation: fadeUp .8s ease .45s both;
     }
 
-    .hero-cta-wrap { max-width: 420px; }
+    .hero-cta-wrap {
+      max-width: 420px;
+      animation: fadeUp .8s ease .55s both;
+    }
 
-    /* Métricas hero */
+    /* métricas */
     .hero-metrics {
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: rgba(255,255,255,0.1);
-      border-radius: 12px; overflow: hidden; margin-top: 40px;
+      gap: 1px; background: rgba(255,255,255,0.08);
+      border-radius: 14px; overflow: hidden;
+      margin-top: 44px; border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp .8s ease .65s both;
     }
     .metric {
-      background: rgba(255,255,255,0.05);
-      padding: 18px 16px; text-align: center;
+      background: rgba(255,255,255,0.04);
+      padding: 20px 16px; text-align: center;
+      transition: background .2s;
     }
-    .metric .val { font-size: 22px; font-weight: 900; color: white; display: block; }
-    .metric .lbl { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+    .metric:hover { background: rgba(255,255,255,0.08); }
+    .metric .val {
+      font-size: 26px; font-weight: 900; color: white;
+      display: block; letter-spacing: -0.5px;
+    }
+    .metric .lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 4px; }
 
     /* ── PROBLEMA ── */
-    .section-problem { padding: 72px 0; background: var(--white); }
+    .section-problem { padding: 80px 0; background: var(--white); }
+
     .section-label {
       display: block; font-size: 11px; font-weight: 800;
       letter-spacing: 2px; text-transform: uppercase;
-      color: var(--blue); margin-bottom: 14px;
+      color: var(--blue); margin-bottom: 12px;
     }
     .section-title {
-      font-size: clamp(22px, 4vw, 34px); font-weight: 900;
-      color: var(--text); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 36px;
+      font-size: clamp(24px, 4vw, 36px); font-weight: 900;
+      color: var(--text); line-height: 1.12; letter-spacing: -0.7px; margin-bottom: 40px;
     }
 
-    /* Comparativo antes/depois */
     .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .compare-col { border-radius: 12px; padding: 24px; }
-    .compare-col.before { background: #fff5f5; border: 1.5px solid #fcc; }
-    .compare-col.after  { background: #f0fff4; border: 1.5px solid #86efac; }
+
+    .compare-col { border-radius: 16px; padding: 28px; }
+    .compare-col.before {
+      background: #fff5f5; border: 1.5px solid #fcc;
+      transition: transform .2s; cursor: default;
+    }
+    .compare-col.before:hover { transform: scale(1.02); }
+    .compare-col.after {
+      background: #f0fff4; border: 1.5px solid #86efac;
+      transition: transform .2s; cursor: default;
+    }
+    .compare-col.after:hover { transform: scale(1.02); }
+
     .compare-label {
       font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
-      text-transform: uppercase; margin-bottom: 16px;
+      text-transform: uppercase; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
     }
     .compare-col.before .compare-label { color: #dc2626; }
     .compare-col.after  .compare-label { color: #16a34a; }
-    .compare-list { display: flex; flex-direction: column; gap: 10px; }
-    .compare-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.45; }
-    .compare-item .icon { flex-shrink: 0; margin-top: 1px; }
+    .compare-label::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .compare-col.before .compare-label::before { background: #dc2626; }
+    .compare-col.after  .compare-label::before { background: #16a34a; }
+
+    .compare-list { display: flex; flex-direction: column; gap: 12px; }
+    .compare-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.45; color: var(--text); }
+    .compare-item .icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
 
     /* ── ENTREGÁVEIS ── */
-    .section-deliver { padding: 72px 0; background: var(--gray); }
+    .section-deliver { padding: 80px 0; background: var(--gray); }
+
     .deliver-box {
-      background: white; border-radius: 16px;
-      border: 1px solid var(--gray-mid); padding: 36px;
-      box-shadow: 0 4px 24px rgba(32,32,204,0.06);
+      background: white; border-radius: 20px;
+      border: 1px solid var(--gray-mid); padding: 40px;
+      box-shadow: 0 8px 40px rgba(32,32,204,0.07);
+      position: relative; overflow: hidden;
     }
-    .deliver-box h2 { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-    .deliver-box .sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
-    .deliver-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
-    .deliver-item { display: flex; align-items: flex-start; gap: 14px; }
+    .deliver-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--blue), #7b7bff, var(--blue));
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+
+    .deliver-box h2 { font-size: 21px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .deliver-box .sub { font-size: 14px; color: var(--muted); margin-bottom: 30px; }
+
+    .deliver-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+    .deliver-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid var(--gray-mid);
+      transition: background .15s; border-radius: 8px;
+    }
+    .deliver-item:last-child { border-bottom: none; }
+
     .d-check {
-      width: 24px; height: 24px; flex-shrink: 0;
-      background: var(--blue); border-radius: 6px;
+      width: 26px; height: 26px; flex-shrink: 0;
+      background: var(--blue); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(32,32,204,0.3);
+      transition: transform .2s;
     }
+    .deliver-item:hover .d-check { transform: scale(1.1); }
     .d-check svg { width: 14px; height: 14px; fill: white; }
-    .deliver-item p { font-size: 14px; color: var(--text); line-height: 1.5; padding-top: 2px; }
-    .deliver-item p strong { font-weight: 700; }
+
+    .deliver-item p { font-size: 14px; color: var(--text); line-height: 1.55; padding-top: 3px; }
+    .deliver-item p strong { font-weight: 700; color: var(--blue); }
 
     /* ── MÉTODO ── */
-    .section-method { padding: 72px 0; background: white; }
-    .method-list { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
-    .method-item {
-      display: flex; gap: 20px; padding: 22px 0;
-      border-bottom: 1px solid var(--gray-mid);
+    .section-method { padding: 80px 0; background: white; }
+
+    .method-list { display: flex; flex-direction: column; gap: 0; margin-top: 40px; position: relative; }
+    .method-list::before {
+      content: '';
+      position: absolute; left: 19px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, var(--blue), rgba(32,32,204,0.1));
     }
-    .method-item:last-child { border-bottom: none; }
+
+    .method-item {
+      display: flex; gap: 24px; padding: 0 0 36px 0;
+      position: relative;
+    }
+    .method-item:last-child { padding-bottom: 0; }
+
     .m-num {
       width: 40px; height: 40px; flex-shrink: 0;
-      background: var(--blue); color: white; border-radius: 10px;
-      font-size: 16px; font-weight: 900;
+      background: var(--blue); color: white; border-radius: 50%;
+      font-size: 15px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 4px white, 0 0 0 6px rgba(32,32,204,0.2);
+      position: relative; z-index: 1;
+      transition: transform .2s, box-shadow .2s;
     }
-    .method-item h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .method-item p  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .method-item:hover .m-num {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 4px white, 0 0 0 8px rgba(32,32,204,0.35);
+    }
+
+    .method-item h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 5px; padding-top: 8px; }
+    .method-item p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
     /* ── CTA FINAL ── */
     .section-cta {
-      padding: 72px 0 80px;
-      background: linear-gradient(160deg, #040418 0%, #0a0a50 50%, #1515A0 100%);
+      padding: 80px 0 88px;
+      background: #060618;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, rgba(32,32,204,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 30%, rgba(123,123,255,0.2) 0%, transparent 45%);
+      position: relative; overflow: hidden;
     }
-    .cta-inner { text-align: center; }
-    .cta-inner .badge { color: rgba(255,255,255,0.7); margin-bottom: 20px; display: inline-flex; }
+    .section-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .cta-inner { text-align: center; position: relative; z-index: 1; }
+
+    .cta-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .cta-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+
     .cta-inner h2 {
-      font-size: clamp(24px, 4.5vw, 38px); font-weight: 900; color: white;
-      line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 14px;
+      font-size: clamp(26px, 5vw, 42px); font-weight: 900; color: white;
+      line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px;
     }
-    .cta-inner h2 em { color: #7b7bff; font-style: normal; }
+    .cta-inner h2 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #7b7bff, #a5b4fc, #7b7bff);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
     .cta-inner > p {
-      font-size: 16px; color: rgba(255,255,255,0.65);
-      margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto;
+      font-size: 16px; color: rgba(255,255,255,0.6);
+      margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;
+      line-height: 1.65;
     }
-    .cta-btn-wrap { max-width: 420px; margin: 0 auto; }
-    .cta-inner .cta-note { color: rgba(255,255,255,0.45); }
+    .cta-btn-wrap { max-width: 440px; margin: 0 auto; }
+    .cta-inner .cta-note { color: rgba(255,255,255,0.4); }
 
+    /* ── FOOTER ── */
     footer {
-      background: var(--black); padding: 24px; text-align: center;
-      font-size: 12px; color: rgba(255,255,255,0.35);
+      background: #020210; padding: 28px;
+      text-align: center; font-size: 12px;
+      color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.06);
     }
-    footer a { color: rgba(255,255,255,0.35); text-decoration: none; }
+    footer a { color: rgba(255,255,255,0.3); text-decoration: none; }
+    footer a:hover { color: rgba(255,255,255,0.6); }
 
+    /* ── WA FLOAT ── */
     .wa-float {
       position: fixed; bottom: 24px; right: 24px; z-index: 200;
-      background: var(--green); width: 54px; height: 54px; border-radius: 50%;
+      background: var(--green); width: 56px; height: 56px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
       text-decoration: none; transition: transform .2s;
+      animation: pulse-green 2.5s ease-in-out infinite;
     }
-    .wa-float:hover { transform: scale(1.1); }
+    .wa-float:hover { transform: scale(1.12); }
     .wa-float svg { width: 26px; height: 26px; fill: white; }
 
-    @media (max-width: 520px) {
-      .hero { padding: 48px 0 56px; }
+    @media (max-width: 540px) {
+      .hero { padding: 56px 0 64px; }
       .compare-grid { grid-template-columns: 1fr; }
       .hero-metrics { grid-template-columns: 1fr 1fr; }
-      .deliver-box { padding: 24px; }
+      .deliver-box { padding: 28px 20px; }
+      .section-cta { padding: 64px 0 72px; }
+      .method-list::before { left: 19px; }
     }
   </style>
 </head>
 <body>
 
+<!-- WA Flutuante -->
 <a href="https://wa.me/5541984629850?text=Olá%2C%20vim%20pelo%20site%20e%20quero%20minha%20auditoria%20gratuita%20de%20tráfego%20pago." class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
 <!-- ════════════ HERO ════════════ -->
 <section class="hero">
+  <div class="hero-orb"></div>
   <div class="container">
     <div class="hero-inner">
 
-      <div class="logo-strip">
-        <div class="logo-mark">
-          <svg viewBox="0 0 24 24"><text x="1" y="18" font-size="15" font-weight="900" font-family="Arial,sans-serif">JC</text></svg>
-        </div>
-        <div class="logo-text">
-          <strong>João Costa</strong>
-          <span>Estrategista &amp; Ads</span>
-        </div>
-      </div>
+      <img src="logo.png" alt="João Costa Ads" class="logo-img">
 
-      <div class="badge">Gestão de Tráfego Pago · Google &amp; Meta Ads</div>
+      <div class="hero-badge">Gestão de Tráfego Pago · Google &amp; Meta Ads</div>
 
-      <h1>Tráfego pago que traz cliente,<br>não só <em>clique.</em></h1>
+      <h1>Tráfego pago que<br>traz cliente,<br>não só <em>clique.</em></h1>
 
       <p>Se você está investindo em anúncios mas as vendas não aparecem — o problema não é a plataforma, é a estratégia. Audito suas campanhas gratuitamente e mostro exatamente o que está bloqueando o resultado.</p>
 
       <div class="hero-cta-wrap">
         <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20quero%20uma%20auditoria%20gratuita%20das%20minhas%20campanhas%20de%20tráfego%20pago." class="btn-wa" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Auditoria gratuita das minhas campanhas
+          <span>Auditoria gratuita das minhas campanhas</span>
         </a>
         <p class="cta-note">Resposta rápida · Seg–Sex 8h–18h · Sem compromisso</p>
       </div>
 
       <div class="hero-metrics">
         <div class="metric">
-          <span class="val">+13</span>
+          <span class="val" data-target="13" data-suffix="+">0+</span>
           <span class="lbl">Clientes ativos</span>
         </div>
         <div class="metric">
           <span class="val">Google &amp; Meta</span>
-          <span class="lbl">Plataformas gerenciadas</span>
+          <span class="lbl">Plataformas</span>
         </div>
         <div class="metric">
-          <span class="val">48h</span>
-          <span class="lbl">Diagnóstico gratuito</span>
+          <span class="val" data-target="48" data-suffix="h">0h</span>
+          <span class="lbl">Diagnóstico</span>
         </div>
       </div>
 
@@ -263,11 +446,11 @@
 <!-- ════════════ PROBLEMA ════════════ -->
 <section class="section-problem">
   <div class="container">
-    <span class="section-label">O problema</span>
-    <h2 class="section-title">Tráfego pago com e sem<br>estratégia real</h2>
+    <span class="section-label reveal">O problema</span>
+    <h2 class="section-title reveal reveal-delay-1">Tráfego pago com e sem<br>estratégia real</h2>
 
     <div class="compare-grid">
-      <div class="compare-col before">
+      <div class="compare-col before reveal reveal-delay-2">
         <div class="compare-label">O que você tem hoje</div>
         <div class="compare-list">
           <div class="compare-item"><span class="icon">❌</span> Verba indo, cliente não vindo</div>
@@ -277,7 +460,7 @@
           <div class="compare-item"><span class="icon">❌</span> Gestor que some após assinar</div>
         </div>
       </div>
-      <div class="compare-col after">
+      <div class="compare-col after reveal reveal-delay-3">
         <div class="compare-label">O que você passa a ter</div>
         <div class="compare-list">
           <div class="compare-item"><span class="icon">✅</span> Anúncios que atraem quem compra</div>
@@ -294,10 +477,10 @@
 <!-- ════════════ ENTREGÁVEIS ════════════ -->
 <section class="section-deliver">
   <div class="container">
-    <span class="section-label">Auditoria Gratuita</span>
-    <h2 class="section-title">O que você recebe<br>no diagnóstico de tráfego pago</h2>
+    <span class="section-label reveal">Auditoria Gratuita</span>
+    <h2 class="section-title reveal reveal-delay-1">O que você recebe<br>no diagnóstico</h2>
 
-    <div class="deliver-box">
+    <div class="deliver-box reveal reveal-delay-2">
       <h2>Diagnóstico completo das suas campanhas</h2>
       <p class="sub">Gratuito · Sem compromisso · Resultado em até 48h</p>
 
@@ -326,7 +509,7 @@
 
       <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20quero%20a%20auditoria%20gratuita%20das%20minhas%20campanhas%20de%20tráfego%20pago." class="btn-wa" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Quero minha auditoria gratuita
+        <span>Quero minha auditoria gratuita</span>
       </a>
       <p class="cta-note">Sem custo · Sem compromisso · Resposta em horário comercial</p>
     </div>
@@ -336,32 +519,32 @@
 <!-- ════════════ MÉTODO ════════════ -->
 <section class="section-method">
   <div class="container">
-    <span class="section-label">Como funciona</span>
-    <h2 class="section-title">Do diagnóstico ao<br>tráfego pago que converte</h2>
+    <span class="section-label reveal">Como funciona</span>
+    <h2 class="section-title reveal reveal-delay-1">Do diagnóstico ao<br>tráfego pago que converte</h2>
 
     <div class="method-list">
-      <div class="method-item">
+      <div class="method-item reveal reveal-delay-1">
         <div class="m-num">1</div>
         <div>
           <h3>Você manda o histórico de campanhas</h3>
           <p>Compartilha acesso de visualização à sua conta (Google Ads, Meta ou ambos). Não precisa dar permissão de edição nessa etapa.</p>
         </div>
       </div>
-      <div class="method-item">
+      <div class="method-item reveal reveal-delay-2">
         <div class="m-num">2</div>
         <div>
           <h3>Audito tudo em 48h</h3>
           <p>Analiso estrutura, rastreamento, públicos, criativos, lances e página de destino. Documento cada problema com evidência real.</p>
         </div>
       </div>
-      <div class="method-item">
+      <div class="method-item reveal reveal-delay-3">
         <div class="m-num">3</div>
         <div>
           <h3>Apresento o diagnóstico</h3>
           <p>Reunião rápida via WhatsApp ou videochamada. Mostro exatamente o que deu errado, por quê e o caminho para corrigir.</p>
         </div>
       </div>
-      <div class="method-item">
+      <div class="method-item reveal reveal-delay-4">
         <div class="m-num">4</div>
         <div>
           <h3>Você decide o próximo passo</h3>
@@ -375,14 +558,14 @@
 <!-- ════════════ CTA FINAL ════════════ -->
 <section class="section-cta">
   <div class="container">
-    <div class="cta-inner">
-      <div class="badge">Próximo passo</div>
+    <div class="cta-inner reveal">
+      <div class="cta-badge">Próximo passo</div>
       <h2>Chega de investir em tráfego<br>e <em>não ver retorno.</em></h2>
       <p>A auditoria é gratuita. O diagnóstico é honesto. Não precisa contratar nada — só me dá acesso e eu te mostro exatamente o que está acontecendo.</p>
       <div class="cta-btn-wrap">
         <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20vim%20pelo%20site%20e%20quero%20a%20auditoria%20gratuita%20das%20minhas%20campanhas." class="btn-wa" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Falar com João Costa agora
+          <span>Falar com João Costa agora</span>
         </a>
         <p class="cta-note">(41) 98462-9850 · jctrafegoqualificado@gmail.com</p>
       </div>
@@ -391,12 +574,46 @@
 </section>
 
 <footer>
-  <p>© 2026 <strong style="color:rgba(255,255,255,0.55)">João Paulo Battissacco da Costa</strong> · João Costa Estrategista &amp; Ads</p>
+  <p>© 2026 <strong style="color:rgba(255,255,255,0.5)">João Paulo Battissacco da Costa</strong> · João Costa Estrategista &amp; Ads</p>
   <p style="margin-top:6px">
     <a href="index.html#legal">Política de Privacidade</a> ·
     <a href="index.html#legal">Termos de Serviço</a>
   </p>
 </footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Counter animation nos números
+  function animateCount(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.target.dataset.target) {
+        animateCount(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+</script>
 
 </body>
 </html>
