@@ -531,9 +531,63 @@
       .metodo-grid { grid-template-columns: 1fr; }
       .logo-img { height: 180px; }
     }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--blue), #7b7bff, #a5b4fc);
+      z-index: 1000; transition: width .08s linear;
+      box-shadow: 0 0 8px rgba(123,123,255,0.8);
+    }
+
+    /* ── CANVAS PARTICLES ── */
+    #hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── CURSOR SPOTLIGHT ── */
+    .cursor-spotlight {
+      position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(100,100,255,0.1) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 0;
+      opacity: 0; transition: opacity .4s ease;
+    }
+
+    /* ── TYPEWRITER CURSOR ── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero h1 em::after {
+      content: '|';
+      display: inline-block; margin-left: 2px;
+      color: #a5b4fc; font-weight: 300;
+      animation: blink 1.1s ease-in-out infinite;
+    }
+
+    /* ── REVEAL LATERAL ── */
+    .reveal-left {
+      opacity: 0; transform: translateX(-36px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0; transform: translateX(36px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ── CARD TILT (preserve transform origin) ── */
+    .dor-card, .servico-card {
+      will-change: transform;
+      transform-style: preserve-3d;
+    }
   </style>
 </head>
 <body>
+
+<div id="scroll-bar"></div>
 
 <!-- WA Flutuante -->
 <a href="https://wa.me/5541984629850?text=Olá%2C%20vim%20pelo%20site%20e%20quero%20minha%20auditoria%20gratuita." class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -544,6 +598,8 @@
      HERO
 ════════════════════════════════════════════════ -->
 <section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="cursor-spotlight" id="spotlight"></div>
   <div class="hero-orb1"></div>
   <div class="hero-orb2"></div>
 
@@ -892,43 +948,168 @@
 </footer>
 
 <script>
-  // Scroll reveal
-  const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  /* ── SCROLL PROGRESS ── */
+  const scrollBar = document.getElementById('scroll-bar');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    scrollBar.style.width = pct + '%';
+  }, { passive: true });
 
-  // Counter animation
+  /* ── SCROLL REVEAL (up + lateral) ── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+  /* ── COUNTER ANIMATION ── */
   function animateCount(el) {
     const target = parseInt(el.dataset.target);
     const suffix = el.dataset.suffix || '';
-    const duration = 1400;
+    const duration = 1600;
     const start = performance.now();
     function step(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
+      const t = Math.min((now - start) / duration, 1);
+      const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
       el.textContent = Math.floor(ease * target) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
+      if (t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
   const counterObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting && e.target.dataset.target) {
-        animateCount(e.target);
-        counterObs.unobserve(e.target);
+        animateCount(e.target); counterObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.4 });
   document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
 
-  // FAQ accordion
+  /* ── FAQ ACCORDION ── */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ── CANVAS PARTICLES ── */
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    const N = 55;
+
+    function resize() {
+      const hero = canvas.parentElement;
+      W = canvas.width  = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    }
+
+    function Particle() {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.r  = Math.random() * 1.4 + 0.4;
+      this.a  = Math.random() * 0.35 + 0.08;
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({length: N}, () => new Particle());
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(123,123,255,${p.a})`;
+        ctx.fill();
+      });
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(100,100,255,${(1-d/130)*0.12})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    init();
+    draw();
+    window.addEventListener('resize', init, { passive: true });
+  })();
+
+  /* ── CURSOR SPOTLIGHT no HERO ── */
+  (function() {
+    const hero = document.querySelector('.hero');
+    const spot = document.getElementById('spotlight');
+    if (!hero || !spot) return;
+    let raf;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      tx = e.clientX - r.left;
+      ty = e.clientY - r.top;
+      spot.style.opacity = '1';
+    }, { passive: true });
+    hero.addEventListener('mouseleave', () => spot.style.opacity = '0');
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function loop() {
+      cx = lerp(cx, tx, 0.06);
+      cy = lerp(cy, ty, 0.06);
+      spot.style.left = cx + 'px';
+      spot.style.top  = cy + 'px';
+      raf = requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ── 3D CARD TILT ── */
+  document.querySelectorAll('.dor-card, .servico-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r  = card.getBoundingClientRect();
+      const dx = (e.clientX - r.left  - r.width  / 2) / (r.width  / 2);
+      const dy = (e.clientY - r.top   - r.height / 2) / (r.height / 2);
+      card.style.transform = `perspective(900px) rotateY(${dx*7}deg) rotateX(${-dy*7}deg) translateY(-5px) scale(1.01)`;
+    }, { passive: true });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform .4s ease';
+      setTimeout(() => card.style.transition = '', 400);
+    });
+  });
+
+  /* ── BOTÃO MAGNÉTICO ── */
+  document.querySelectorAll('.btn-wa').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const r  = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left  - r.width  / 2) / r.width  * 10;
+      const dy = (e.clientY - r.top   - r.height / 2) / r.height * 5;
+      btn.style.transform = `translate(${dx}px, ${dy - 3}px)`;
+    }, { passive: true });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
     });
   });
 </script>
