@@ -584,6 +584,237 @@
       transform-style: preserve-3d;
     }
 
+    /* ════════════════════════════════════════
+       TICKER
+    ════════════════════════════════════════ */
+    .ticker-wrap {
+      background: #0a0a1e; border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden; padding: 14px 0; position: relative;
+    }
+    .ticker-wrap::before, .ticker-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+      pointer-events: none;
+    }
+    .ticker-wrap::before { left: 0; background: linear-gradient(to right, #0a0a1e, transparent); }
+    .ticker-wrap::after  { right: 0; background: linear-gradient(to left,  #0a0a1e, transparent); }
+
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .ticker-track {
+      display: flex; width: max-content; gap: 0;
+      animation: ticker 35s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 10px;
+      white-space: nowrap; padding: 0 36px;
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.55);
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .ticker-item .t-icon { font-size: 15px; }
+    .ticker-item .t-val { color: #a5b4fc; font-weight: 800; }
+
+    /* ════════════════════════════════════════
+       DASHBOARD MOCKUP
+    ════════════════════════════════════════ */
+    .section-dashboard {
+      padding: 100px 0; background: var(--gray);
+    }
+
+    .dash-wrap {
+      background: #0e0e28;
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      margin-top: 56px;
+    }
+
+    /* Barra de título falsa */
+    .dash-topbar {
+      background: #080818; padding: 14px 24px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .dash-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dash-dot.r { background: #ff5f57; }
+    .dash-dot.y { background: #febc2e; }
+    .dash-dot.g { background: #28c840; }
+    .dash-url {
+      flex: 1; background: rgba(255,255,255,0.05); border-radius: 6px;
+      padding: 5px 14px; font-size: 12px; color: rgba(255,255,255,0.3);
+      margin: 0 16px; font-family: monospace;
+    }
+
+    /* Tabs plataforma */
+    .dash-tabs {
+      display: flex; border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 28px;
+    }
+    .dash-tab {
+      padding: 16px 20px; font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,0.35); cursor: pointer;
+      border-bottom: 2px solid transparent; transition: all .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dash-tab.active { color: white; }
+    .dash-tab.active.google { border-color: #4285F4; }
+    .dash-tab.active.meta   { border-color: #1877F2; }
+    .dash-tab svg { width: 16px; height: 16px; }
+
+    /* Período */
+    .dash-period {
+      padding: 16px 28px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .dash-period span { font-size: 12px; color: rgba(255,255,255,0.35); }
+    .dash-badge-live {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.2);
+      color: #4ade80; font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 100px; letter-spacing: 1px;
+    }
+    .dash-badge-live::before { content:''; width:6px; height:6px; border-radius:50%; background:#4ade80; animation: pulse-green 2s infinite; }
+
+    /* Métricas */
+    .dash-metrics {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .dash-metric {
+      background: #0e0e28; padding: 24px 28px;
+      transition: background .2s;
+    }
+    .dash-metric:hover { background: #131330; }
+    .dash-metric .dm-label { font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 10px; letter-spacing: .5px; }
+    .dash-metric .dm-val   { font-size: 28px; font-weight: 900; color: white; letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
+    .dash-metric .dm-delta {
+      font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .dm-delta.up   { color: #4ade80; background: rgba(74,222,128,0.1); }
+    .dm-delta.down { color: #f87171; background: rgba(248,113,113,0.1); }
+
+    /* Gráfico de barras */
+    .dash-chart { padding: 28px 28px 32px; }
+    .dash-chart-title { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 20px; letter-spacing: .5px; }
+    .dash-bars { display: flex; gap: 10px; align-items: flex-end; height: 80px; }
+    .dash-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .dash-bar {
+      width: 100%; border-radius: 4px 4px 0 0;
+      transition: height .8s cubic-bezier(.34,1.56,.64,1);
+    }
+    .dash-bar-lbl { font-size: 10px; color: rgba(255,255,255,0.3); }
+    .dash-bar-val { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); }
+
+    /* ════════════════════════════════════════
+       CALCULADORA ROI
+    ════════════════════════════════════════ */
+    .section-calc { padding: 100px 0; background: white; }
+
+    .calc-wrap {
+      background: var(--navy);
+      border-radius: 28px; padding: 56px 60px;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+      margin-top: 56px;
+    }
+    .calc-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none;
+    }
+    .calc-orb {
+      position: absolute; right: -80px; top: -80px;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(32,32,204,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .calc-inner { position: relative; z-index: 1; }
+    .calc-header { text-align: center; margin-bottom: 48px; }
+    .calc-header .section-tag { color: #a5b4fc; }
+    .calc-header h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 900; color: white; letter-spacing: -1px; margin-top: 8px; }
+    .calc-header p  { font-size: 16px; color: rgba(255,255,255,0.5); margin-top: 10px; }
+
+    /* Slider */
+    .calc-slider-wrap { margin-bottom: 48px; }
+    .calc-slider-label {
+      font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.6);
+      margin-bottom: 12px; text-align: center;
+    }
+    .calc-amount {
+      font-size: 52px; font-weight: 900; color: white;
+      text-align: center; letter-spacing: -2px; margin-bottom: 20px;
+      transition: all .15s;
+    }
+    .calc-amount span { color: #7b7bff; }
+
+    input[type="range"].calc-range {
+      width: 100%; height: 6px; -webkit-appearance: none; appearance: none;
+      background: rgba(255,255,255,0.1); border-radius: 100px; outline: none; cursor: pointer;
+    }
+    input[type="range"].calc-range::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--blue); border: 3px solid white;
+      box-shadow: 0 0 0 3px rgba(32,32,204,0.4);
+      cursor: pointer; transition: transform .15s;
+    }
+    input[type="range"].calc-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .calc-range-labels {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 8px;
+    }
+
+    /* Resultado */
+    .calc-result {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center;
+    }
+    .calc-col {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px 28px;
+    }
+    .calc-col.good {
+      background: rgba(32,32,204,0.15);
+      border-color: rgba(123,123,255,0.3);
+      box-shadow: 0 0 40px rgba(32,32,204,0.2);
+    }
+    .calc-col-title {
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .calc-col.bad .calc-col-title  { color: rgba(255,255,255,0.35); }
+    .calc-col.good .calc-col-title { color: #a5b4fc; }
+
+    .calc-stat { margin-bottom: 20px; }
+    .calc-stat:last-child { margin-bottom: 0; }
+    .calc-stat .cs-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+    .calc-stat .cs-val   { font-size: 26px; font-weight: 900; color: white; letter-spacing: -0.5px; line-height: 1.1; }
+    .calc-col.bad  .cs-val { color: rgba(255,255,255,0.5); }
+    .calc-col.good .cs-val { color: white; }
+    .calc-stat .cs-sub { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+    .calc-arrow {
+      font-size: 32px; color: #7b7bff; text-align: center; flex-shrink: 0;
+    }
+
+    .calc-cta { text-align: center; margin-top: 40px; }
+    .calc-cta p { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 20px; }
+
+    @media (max-width: 768px) {
+      .dash-metrics { grid-template-columns: 1fr 1fr; }
+      .calc-wrap { padding: 36px 28px; }
+      .calc-result { grid-template-columns: 1fr; }
+      .calc-arrow { transform: rotate(90deg); }
+    }
+
     /* ── HERO PLATFORM ICONS (fantasmas) ── */
     .hero-plat-icon {
       position: absolute; pointer-events: none; z-index: 0;
@@ -796,6 +1027,35 @@
 </div>
 
 <!-- ════════════════════════════════════════════════
+     TICKER
+════════════════════════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="t-icon">📈</span> CPL reduzido em até <span class="t-val">38%</span></div>
+    <div class="ticker-item"><span class="t-icon">🎯</span> Público com <span class="t-val">intenção real</span> de compra</div>
+    <div class="ticker-item"><span class="t-icon">✅</span> Rastreamento <span class="t-val">100% configurado</span></div>
+    <div class="ticker-item"><span class="t-icon">🚀</span> ROAS médio de <span class="t-val">4.2x</span></div>
+    <div class="ticker-item"><span class="t-icon">📊</span> Relatório semanal com <span class="t-val">dados reais</span></div>
+    <div class="ticker-item"><span class="t-icon">💰</span> <span class="t-val">Zero verba</span> desperdiçada em público errado</div>
+    <div class="ticker-item"><span class="t-icon">🔍</span> Diagnóstico gratuito em <span class="t-val">48h</span></div>
+    <div class="ticker-item"><span class="t-icon">📱</span> <span class="t-val">Google Ads</span> + <span class="t-val">Meta Ads</span> integrados</div>
+    <div class="ticker-item"><span class="t-icon">🔁</span> Otimização <span class="t-val">contínua</span> semana a semana</div>
+    <div class="ticker-item"><span class="t-icon">📣</span> Anúncios que <span class="t-val">convertem</span>, não só alcançam</div>
+    <!-- duplicado para loop seamless -->
+    <div class="ticker-item"><span class="t-icon">📈</span> CPL reduzido em até <span class="t-val">38%</span></div>
+    <div class="ticker-item"><span class="t-icon">🎯</span> Público com <span class="t-val">intenção real</span> de compra</div>
+    <div class="ticker-item"><span class="t-icon">✅</span> Rastreamento <span class="t-val">100% configurado</span></div>
+    <div class="ticker-item"><span class="t-icon">🚀</span> ROAS médio de <span class="t-val">4.2x</span></div>
+    <div class="ticker-item"><span class="t-icon">📊</span> Relatório semanal com <span class="t-val">dados reais</span></div>
+    <div class="ticker-item"><span class="t-icon">💰</span> <span class="t-val">Zero verba</span> desperdiçada em público errado</div>
+    <div class="ticker-item"><span class="t-icon">🔍</span> Diagnóstico gratuito em <span class="t-val">48h</span></div>
+    <div class="ticker-item"><span class="t-icon">📱</span> <span class="t-val">Google Ads</span> + <span class="t-val">Meta Ads</span> integrados</div>
+    <div class="ticker-item"><span class="t-icon">🔁</span> Otimização <span class="t-val">contínua</span> semana a semana</div>
+    <div class="ticker-item"><span class="t-icon">📣</span> Anúncios que <span class="t-val">convertem</span>, não só alcançam</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
      DOR — Você se identifica?
 ════════════════════════════════════════════════ -->
 <section class="section-dor">
@@ -972,6 +1232,99 @@
 </section>
 
 <!-- ════════════════════════════════════════════════
+     DASHBOARD MOCKUP
+════════════════════════════════════════════════ -->
+<section class="section-dashboard">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="section-tag">Transparência total</span>
+      <h2 class="section-title">É isso que seus clientes<br>veem toda semana</h2>
+      <p class="section-desc" style="margin:0 auto">Sem relatório de alcance. Sem métrica de vaidade. Só os números que importam — conversões, CPL e retorno real sobre o investimento.</p>
+    </div>
+
+    <div class="dash-wrap reveal reveal-d1">
+      <!-- Barra browser falsa -->
+      <div class="dash-topbar">
+        <div class="dash-dot r"></div>
+        <div class="dash-dot y"></div>
+        <div class="dash-dot g"></div>
+        <div class="dash-url">ads.google.com / campaigns · dashboard</div>
+        <div class="dash-badge-live">AO VIVO</div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="dash-tabs">
+        <div class="dash-tab active google" data-tab="google">
+          <svg viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+          Google Ads
+        </div>
+        <div class="dash-tab meta" data-tab="meta">
+          <svg viewBox="0 0 40 40"><path fill="#1877F2" d="M20 2C10.06 2 2 10.06 2 20s8.06 18 18 18 18-8.06 18-18S29.94 2 20 2zm2.34 27.5h-4.68V18.1c0-.9-.73-1.63-1.63-1.63s-1.63.73-1.63 1.63V29.5h-4.68V18.1c0-3.49 2.82-6.31 6.31-6.31s6.31 2.82 6.31 6.31V29.5z"/></svg>
+          Meta Ads
+        </div>
+      </div>
+
+      <!-- Período -->
+      <div class="dash-period">
+        <span>Período: <strong style="color:rgba(255,255,255,0.6)">Últimos 30 dias</strong></span>
+        <span id="dash-updated">Atualizado: agora há pouco</span>
+      </div>
+
+      <!-- Métricas -->
+      <div class="dash-metrics" id="dash-metrics">
+        <div class="dash-metric">
+          <div class="dm-label">IMPRESSÕES</div>
+          <div class="dm-val" data-g="142.380" data-m="87.240">—</div>
+          <div class="dm-delta up">↑ 23%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dm-label">CLIQUES</div>
+          <div class="dm-val" data-g="3.847" data-m="2.193">—</div>
+          <div class="dm-delta up">↑ 18%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dm-label" id="conv-label">CONVERSÕES</div>
+          <div class="dm-val" data-g="89" data-m="67">—</div>
+          <div class="dm-delta up">↑ 41%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dm-label">CPL MÉDIO</div>
+          <div class="dm-val" data-g="R$ 28,40" data-m="R$ 38,20">—</div>
+          <div class="dm-delta down">↓ 31%</div>
+        </div>
+      </div>
+
+      <!-- Gráfico barras -->
+      <div class="dash-chart">
+        <div class="dash-chart-title">PERFORMANCE SEMANAL — CONVERSÕES</div>
+        <div class="dash-bars" id="dash-bars">
+          <div class="dash-bar-col">
+            <div class="dash-bar-val" id="b1v">18</div>
+            <div class="dash-bar" id="b1" style="height:0;background:linear-gradient(to top,#4285F4,#7b7bff)"></div>
+            <div class="dash-bar-lbl">Sem 1</div>
+          </div>
+          <div class="dash-bar-col">
+            <div class="dash-bar-val" id="b2v">24</div>
+            <div class="dash-bar" id="b2" style="height:0;background:linear-gradient(to top,#4285F4,#7b7bff)"></div>
+            <div class="dash-bar-lbl">Sem 2</div>
+          </div>
+          <div class="dash-bar-col">
+            <div class="dash-bar-val" id="b3v">31</div>
+            <div class="dash-bar" id="b3" style="height:0;background:linear-gradient(to top,#4285F4,#7b7bff)"></div>
+            <div class="dash-bar-lbl">Sem 3</div>
+          </div>
+          <div class="dash-bar-col">
+            <div class="dash-bar-val" id="b4v">42</div>
+            <div class="dash-bar" id="b4" style="height:0;background:linear-gradient(to top,#4285F4,#7b7bff)"></div>
+            <div class="dash-bar-lbl">Sem 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
      AUDITORIA
 ════════════════════════════════════════════════ -->
 <section class="section-auditoria">
@@ -1116,6 +1469,81 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a">Depende do histórico da conta e do mercado. Em geral, as primeiras melhorias aparecem em 2–3 semanas. Resultados consistentes e escaláveis costumam acontecer entre o 1º e 2º mês de gestão.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     CALCULADORA ROI
+════════════════════════════════════════════════ -->
+<section class="section-calc">
+  <div class="container">
+    <div class="calc-wrap reveal">
+      <div class="calc-orb"></div>
+      <div class="calc-inner">
+        <div class="calc-header">
+          <span class="section-tag">Calculadora de ROI</span>
+          <h2>Quanto você está<br>deixando na mesa?</h2>
+          <p>Arraste para simular o impacto de uma gestão profissional no seu investimento atual em anúncios.</p>
+        </div>
+
+        <div class="calc-slider-wrap">
+          <div class="calc-slider-label">Investimento mensal em anúncios</div>
+          <div class="calc-amount">R$ <span id="calc-val">2.000</span></div>
+          <input type="range" class="calc-range" id="calc-range" min="500" max="10000" step="500" value="2000">
+          <div class="calc-range-labels"><span>R$ 500</span><span>R$ 10.000</span></div>
+        </div>
+
+        <div class="calc-result">
+          <div class="calc-col bad">
+            <div class="calc-col-title">❌ Sem gestão profissional</div>
+            <div class="calc-stat">
+              <div class="cs-label">CPL estimado</div>
+              <div class="cs-val" id="cpl-bad">R$ 165</div>
+              <div class="cs-sub">Custo por lead desqualificado</div>
+            </div>
+            <div class="calc-stat">
+              <div class="cs-label">Leads por mês</div>
+              <div class="cs-val" id="leads-bad">~12</div>
+              <div class="cs-sub">Com campanhas mal estruturadas</div>
+            </div>
+            <div class="calc-stat">
+              <div class="cs-label">Verba desperdiçada</div>
+              <div class="cs-val" id="waste">R$ 760</div>
+              <div class="cs-sub">Em público errado e keywords ruins</div>
+            </div>
+          </div>
+
+          <div class="calc-arrow">→</div>
+
+          <div class="calc-col good">
+            <div class="calc-col-title">✅ Com João Costa Ads</div>
+            <div class="calc-stat">
+              <div class="cs-label">CPL otimizado</div>
+              <div class="cs-val" id="cpl-good">R$ 55</div>
+              <div class="cs-sub">Leads com intenção de compra</div>
+            </div>
+            <div class="calc-stat">
+              <div class="cs-label">Leads por mês</div>
+              <div class="cs-val" id="leads-good">~36</div>
+              <div class="cs-sub">Com segmentação e copy certos</div>
+            </div>
+            <div class="calc-stat">
+              <div class="cs-label">Leads extras/mês</div>
+              <div class="cs-val" id="leads-extra">+24 leads</div>
+              <div class="cs-sub">Sem aumentar o investimento</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-cta">
+          <p>*Estimativas baseadas em benchmarks de mercado para campanhas otimizadas vs não otimizadas.</p>
+          <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20fiz%20a%20simulação%20e%20quero%20a%20auditoria%20gratuita." class="btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>Quero esses resultados — auditoria gratuita</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1301,6 +1729,125 @@
       setTimeout(() => card.style.transition = '', 400);
     });
   });
+
+  /* ── DASHBOARD MOCKUP ── */
+  (function() {
+    const DATA = {
+      google: {
+        vals:   ['142.380', '3.847', '89', 'R$ 28,40'],
+        deltas: ['+23%↑', '+18%↑', '+41%↑', '-31%↓'],
+        deltaCls: ['up','up','up','down'],
+        convLabel: 'CONVERSÕES',
+        bars: [18, 24, 31, 42],
+        barColor: 'linear-gradient(to top,#4285F4,#7b7bff)'
+      },
+      meta: {
+        vals:   ['87.240', '2.193', '67', 'R$ 38,20'],
+        deltas: ['+19%↑', '+14%↑', '+35%↑', '-28%↓'],
+        deltaCls: ['up','up','up','down'],
+        convLabel: 'LEADS',
+        bars: [14, 18, 22, 30],
+        barColor: 'linear-gradient(to top,#1877F2,#60a5fa)'
+      }
+    };
+
+    let current = 'google';
+    let barsAnimated = false;
+
+    function renderTab(tab) {
+      current = tab;
+      const d = DATA[tab];
+      const metrics = document.querySelectorAll('#dash-metrics .dm-val');
+      const deltas  = document.querySelectorAll('#dash-metrics .dm-delta');
+      metrics.forEach((el, i) => {
+        el.style.opacity = 0;
+        setTimeout(() => {
+          el.textContent = d.vals[i];
+          el.style.opacity = 1;
+          el.style.transition = 'opacity .3s';
+        }, i * 60);
+      });
+      deltas.forEach((el, i) => {
+        el.textContent = d.deltas[i];
+        el.className = 'dm-delta ' + d.deltaCls[i];
+      });
+      document.getElementById('conv-label').textContent = d.convLabel;
+      animateBars(d.bars, d.barColor);
+    }
+
+    function animateBars(vals, color) {
+      const max = Math.max(...vals);
+      const maxH = 72;
+      [1,2,3,4].forEach((i, idx) => {
+        const bar = document.getElementById('b' + i);
+        const val = document.getElementById('b' + i + 'v');
+        if (!bar) return;
+        bar.style.background = color;
+        bar.style.height = '0px';
+        setTimeout(() => {
+          bar.style.height = Math.round((vals[idx] / max) * maxH) + 'px';
+        }, idx * 80 + 100);
+        val.textContent = vals[idx];
+      });
+    }
+
+    // tabs click
+    document.querySelectorAll('.dash-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderTab(tab.dataset.tab);
+      });
+    });
+
+    // animar quando entrar na tela
+    const dashObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !barsAnimated) {
+          barsAnimated = true;
+          renderTab('google');
+          dashObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    const dashEl = document.querySelector('.dash-wrap');
+    if (dashEl) dashObs.observe(dashEl);
+  })();
+
+  /* ── CALCULADORA ROI ── */
+  (function() {
+    const range   = document.getElementById('calc-range');
+    const display = document.getElementById('calc-val');
+    if (!range) return;
+
+    function fmt(n) { return n.toLocaleString('pt-BR'); }
+
+    function update() {
+      const inv = parseInt(range.value);
+      display.textContent = fmt(inv);
+
+      const cplBad   = Math.round(inv * 0.083);
+      const cplGood  = Math.round(inv * 0.0275);
+      const leadsBad  = Math.floor(inv / cplBad);
+      const leadsGood = Math.floor(inv / cplGood);
+      const extra     = leadsGood - leadsBad;
+      const waste     = Math.round(inv * 0.38);
+
+      document.getElementById('cpl-bad').textContent    = 'R$ ' + fmt(cplBad);
+      document.getElementById('leads-bad').textContent  = '~' + leadsBad;
+      document.getElementById('waste').textContent      = 'R$ ' + fmt(waste);
+      document.getElementById('cpl-good').textContent   = 'R$ ' + fmt(cplGood);
+      document.getElementById('leads-good').textContent = '~' + leadsGood;
+      document.getElementById('leads-extra').textContent = '+' + extra + ' leads';
+
+      // Atualiza gradiente do slider
+      const pct = ((inv - 500) / (10000 - 500)) * 100;
+      range.style.background = `linear-gradient(to right, #2020CC ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
+    }
+
+    range.addEventListener('input', update);
+    update();
+  })();
 
   /* ── BOTÃO MAGNÉTICO ── */
   document.querySelectorAll('.btn-wa').forEach(btn => {
