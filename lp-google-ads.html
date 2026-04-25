@@ -27,7 +27,7 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; overflow-x: hidden; }
 
-    .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
 
     /* ── ANIMAÇÕES ── */
     @keyframes fadeUp {
@@ -130,7 +130,7 @@
       pointer-events: none;
     }
 
-    .hero-inner { position: relative; z-index: 1; animation: fadeUp .8s ease both; padding-top: 180px; }
+    .hero-inner { position: relative; z-index: 1; animation: fadeUp .8s ease both; padding-top: 180px; max-width: 620px; }
 
     /* logo */
     .logo-img {
@@ -334,8 +334,10 @@
       pointer-events: none;
     }
 
-    .cta-inner { text-align: center; position: relative; z-index: 1; }
+    .cta-inner { text-align: left; position: relative; z-index: 1; max-width: 620px; }
 
+    .cta-inner > p { margin-left: 0; margin-right: 0; }
+    .cta-btn-wrap { max-width: 440px; margin: 0; }
     .cta-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(255,255,255,0.06);
@@ -358,12 +360,6 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: shimmer 3s linear infinite;
     }
-    .cta-inner > p {
-      font-size: 16px; color: rgba(255,255,255,0.6);
-      margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;
-      line-height: 1.65;
-    }
-    .cta-btn-wrap { max-width: 440px; margin: 0 auto; }
     .cta-inner .cta-note { color: rgba(255,255,255,0.4); }
 
     /* ── FOOTER ── */
