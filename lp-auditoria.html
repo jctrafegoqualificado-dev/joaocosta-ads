@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoria Gratuita de Tráfego Pago — João Costa Ads</title>
+  <meta name="description" content="Já investiu em tráfego pago e não teve resultado? Diagnóstico gratuito das suas campanhas em 48h. Sem compromisso.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #2020CC;
+      --blue-dark:  #1515A0;
+      --blue-light: #3535E0;
+      --black:      #0a0a0a;
+      --text:       #1a1a2e;
+      --muted:      #666680;
+      --gray:       #f5f5f7;
+      --gray-mid:   #e2e2ec;
+      --white:      #ffffff;
+      --green:      #25D366;
+      --green-dark: #1ebe5d;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── UTILS ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .badge::before {
+      content: ''; width: 8px; height: 8px;
+      border-radius: 50%; background: #4ade80; flex-shrink: 0;
+    }
+
+    /* ── BTN WHATSAPP ── */
+    .btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      background: var(--green); color: white;
+      padding: 18px 32px; border-radius: 14px;
+      font-size: 17px; font-weight: 800; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.35);
+      transition: transform .2s, box-shadow .2s;
+      width: 100%;
+    }
+    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(37,211,102,0.45); }
+    .btn-wa svg  { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
+
+    .cta-note {
+      font-size: 12px; color: var(--muted);
+      text-align: center; margin-top: 12px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #06061a 0%, #0e0e60 55%, var(--blue) 100%);
+      padding: 64px 0 72px;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(123,123,255,0.25) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; }
+
+    .hero .badge { color: rgba(255,255,255,0.8); margin-bottom: 28px; }
+
+    .hero h1 {
+      font-size: clamp(28px, 6vw, 46px);
+      font-weight: 900; color: white;
+      line-height: 1.1; letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { color: #9898ff; font-style: normal; }
+
+    .hero p {
+      font-size: clamp(15px, 2.2vw, 18px);
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65; margin-bottom: 36px;
+      max-width: 560px;
+    }
+
+    .hero-cta-wrap { max-width: 420px; }
+
+    .hero-trust {
+      display: flex; gap: 28px; margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: rgba(255,255,255,0.6);
+    }
+    .trust-item svg { width: 16px; height: 16px; fill: #4ade80; flex-shrink: 0; }
+
+    /* ── DOR ── */
+    .section-pain {
+      padding: 72px 0;
+      background: var(--white);
+    }
+    .section-label {
+      display: block;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 900; color: var(--text);
+      line-height: 1.15; letter-spacing: -0.5px;
+      margin-bottom: 36px;
+    }
+
+    .pain-list { display: flex; flex-direction: column; gap: 14px; }
+    .pain-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: #fff5f5; border: 1.5px solid #fcc;
+      border-radius: 12px; padding: 20px;
+    }
+    .pain-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: #fee2e2; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .pain-item strong {
+      display: block; font-size: 15px; font-weight: 700;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .pain-item p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── AUDITORIA ── */
+    .section-audit {
+      padding: 72px 0;
+      background: var(--gray);
+    }
+    .audit-box {
+      background: white; border-radius: 16px;
+      border: 1px solid var(--gray-mid);
+      padding: 36px;
+      box-shadow: 0 4px 24px rgba(32,32,204,0.06);
+    }
+    .audit-box h2 {
+      font-size: 20px; font-weight: 800;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .audit-box .sub {
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .audit-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+    .audit-item {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .audit-check {
+      width: 24px; height: 24px; flex-shrink: 0;
+      background: var(--blue); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .audit-check svg { width: 14px; height: 14px; fill: white; }
+    .audit-item p { font-size: 14px; color: var(--text); line-height: 1.5; padding-top: 2px; }
+    .audit-item p strong { font-weight: 700; }
+
+    /* ── DIFERENCIAIS ── */
+    .section-diff {
+      padding: 72px 0;
+      background: white;
+    }
+    .diff-list { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
+    .diff-item {
+      display: flex; gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .diff-item:last-child { border-bottom: none; }
+    .diff-num {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--blue); color: white;
+      border-radius: 10px; font-size: 16px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .diff-item h3 {
+      font-size: 16px; font-weight: 700;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .diff-item p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ── CTA FINAL ── */
+    .section-cta {
+      padding: 72px 0 80px;
+      background: linear-gradient(160deg, #06061a 0%, #0e0e60 55%, var(--blue) 100%);
+    }
+    .cta-inner { text-align: center; }
+    .cta-inner .badge { color: rgba(255,255,255,0.7); margin-bottom: 20px; display: inline-flex; }
+    .cta-inner h2 {
+      font-size: clamp(24px, 4.5vw, 38px);
+      font-weight: 900; color: white;
+      line-height: 1.15; letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .cta-inner h2 em { color: #9898ff; font-style: normal; }
+    .cta-inner p {
+      font-size: 16px; color: rgba(255,255,255,0.65);
+      margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .cta-btn-wrap { max-width: 420px; margin: 0 auto; }
+    .cta-inner .cta-note { color: rgba(255,255,255,0.45); }
+
+    /* ── FOOTER MINI ── */
+    footer {
+      background: var(--black); padding: 24px;
+      text-align: center; font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+    footer a { color: rgba(255,255,255,0.35); text-decoration: none; }
+
+    /* ── WA FLOAT ── */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: var(--green); color: white;
+      width: 54px; height: 54px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      text-decoration: none; transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+    .wa-float svg { width: 26px; height: 26px; fill: white; }
+
+    /* ── LOGO STRIP ── */
+    .logo-strip {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 36px;
+    }
+    .logo-mark {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 22px; height: 22px; fill: white; }
+    .logo-text strong { font-size: 14px; font-weight: 800; color: white; display: block; letter-spacing: -0.2px; }
+    .logo-text span  { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
+
+    @media (max-width: 520px) {
+      .hero { padding: 48px 0 56px; }
+      .audit-box { padding: 24px; }
+      .section-cta { padding: 56px 0 64px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WhatsApp flutuante -->
+<a href="https://wa.me/5541984629850?text=Olá%2C%20vim%20pelo%20site%20e%20quero%20minha%20auditoria%20gratuita." class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="logo-strip">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><text x="1" y="18" font-size="15" font-weight="900" font-family="Arial,sans-serif">JC</text></svg>
+        </div>
+        <div class="logo-text">
+          <strong>João Costa</strong>
+          <span>Estrategista &amp; Ads</span>
+        </div>
+      </div>
+
+      <div class="badge">Google &amp; Meta Ads · Gestão de Tráfego Pago</div>
+
+      <h1>Já investiu em tráfego pago<br>e <em>não teve resultado?</em></h1>
+
+      <p>Antes de investir mais um real, deixa eu auditar suas campanhas. Identifico o que deu errado e mostro o caminho para gerar clientes de verdade — sem achismo, sem enrolação.</p>
+
+      <div class="hero-cta-wrap">
+        <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20vim%20pelo%20site%20e%20quero%20minha%20auditoria%20gratuita%20das%20campanhas." class="btn-wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Quero minha auditoria gratuita
+        </a>
+        <p class="cta-note">Resposta rápida · Seg–Sex 8h–18h · Sem compromisso</p>
+      </div>
+
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          +13 clientes ativos
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          Google Ads &amp; Meta Ads
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          Diagnóstico em 48h
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     DOR
+════════════════════════════════════════════ -->
+<section class="section-pain">
+  <div class="container">
+    <span class="section-label">Reconhece alguma dessas?</span>
+    <h2 class="section-title">Por que o dinheiro vai embora<br>sem virar cliente</h2>
+
+    <div class="pain-list">
+      <div class="pain-item">
+        <div class="pain-icon">💸</div>
+        <div>
+          <strong>Gastou verba, zero retorno</strong>
+          <p>Campanhas rodando, dinheiro saindo, mas nenhum cliente chegou. O algoritmo otimizou para nada.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">👻</div>
+        <div>
+          <strong>O gestor anterior sumiu</strong>
+          <p>Pegou o dinheiro, prometeu resultado, sumiu depois do contrato. Você ficou sem relatório e sem cliente.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">🖱️</div>
+        <div>
+          <strong>Cliques chegam, vendas não</strong>
+          <p>Anúncio gera clique, mas ninguém compra. O problema não é o tráfego — é a estratégia por trás dele.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     AUDITORIA
+════════════════════════════════════════════ -->
+<section class="section-audit">
+  <div class="container">
+    <span class="section-label">Auditoria Gratuita</span>
+    <h2 class="section-title">O que você recebe<br>no diagnóstico</h2>
+
+    <div class="audit-box">
+      <h2>Auditoria completa das suas campanhas</h2>
+      <p class="sub">Gratuita · Sem compromisso · Resultado em até 48h</p>
+
+      <div class="audit-list">
+        <div class="audit-item">
+          <div class="audit-check">
+            <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          </div>
+          <p><strong>Mapeamento dos erros:</strong> o que está travando suas conversões e por quê o dinheiro está vazando</p>
+        </div>
+        <div class="audit-item">
+          <div class="audit-check">
+            <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          </div>
+          <p><strong>Análise de rastreamento:</strong> pixel, eventos e conversões — se estão configurados certo ou jogando dados fora</p>
+        </div>
+        <div class="audit-item">
+          <div class="audit-check">
+            <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          </div>
+          <p><strong>Diagnóstico de público:</strong> se você está pagando para impactar quem nunca vai comprar</p>
+        </div>
+        <div class="audit-item">
+          <div class="audit-check">
+            <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+          </div>
+          <p><strong>Próximos passos claros:</strong> o que precisa ser feito para transformar cliques em clientes reais</p>
+        </div>
+      </div>
+
+      <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20quero%20minha%20auditoria%20gratuita%20das%20campanhas." class="btn-wa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quero minha auditoria gratuita
+      </a>
+      <p class="cta-note">Sem custo · Sem compromisso · Resposta em horário comercial</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     DIFERENCIAIS
+════════════════════════════════════════════ -->
+<section class="section-diff">
+  <div class="container">
+    <span class="section-label">Por que João Costa</span>
+    <h2 class="section-title">O que é diferente<br>quando você trabalha comigo</h2>
+
+    <div class="diff-list">
+      <div class="diff-item">
+        <div class="diff-num">1</div>
+        <div>
+          <h3>Você fala direto comigo — sem junior, sem terceiro</h3>
+          <p>Sou eu que gerencio as suas campanhas, sou eu que responde quando você manda mensagem. Sem intermediário, sem surpresa.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">2</div>
+        <div>
+          <h3>Diagnóstico antes de qualquer proposta</h3>
+          <p>Nunca apresento um plano sem antes entender o que deu errado. A auditoria gratuita é o ponto de partida — e você não paga nada por ela.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">3</div>
+        <div>
+          <h3>Relatório de resultado, não de vaidade</h3>
+          <p>Chega de relatório com alcance e impressões. Você recebe CPL, ROAS e leads — o que realmente importa pro seu negócio.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">4</div>
+        <div>
+          <h3>Transparência total em cada etapa</h3>
+          <p>Você sabe o que está sendo feito, por quê e quando. Nada de "confia que a gente resolve" — você acompanha tudo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════════ -->
+<section class="section-cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="badge">Próximo passo</div>
+      <h2>Chega de queimar dinheiro<br>em anúncio que <em>não vende.</em></h2>
+      <p>A auditoria é gratuita. O diagnóstico é honesto. Se fizer sentido continuar — a gente conversa. Se não fizer, você vai embora com clareza do que precisa ser feito.</p>
+      <div class="cta-btn-wrap">
+        <a href="https://wa.me/5541984629850?text=Olá%20João%2C%20vim%20pelo%20site%20e%20quero%20minha%20auditoria%20gratuita%20das%20campanhas." class="btn-wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com João Costa agora
+        </a>
+        <p class="cta-note">(41) 98462-9850 · jctrafegoqualificado@gmail.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 <strong style="color:rgba(255,255,255,0.55)">João Paulo Battissacco da Costa</strong> · João Costa Estrategista &amp; Ads</p>
+  <p style="margin-top:6px">
+    <a href="index.html#legal">Política de Privacidade</a> ·
+    <a href="index.html#legal">Termos de Serviço</a>
+  </p>
+</footer>
+
+</body>
+</html>
